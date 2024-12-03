@@ -10,6 +10,15 @@ ToDo: 4. Codebase Details, 5. Media, 6. Object Detection, 7. Replication, 8. Doc
 ## Overview
 The Platooning project aims to develop an autonomous car system capable of safely deploying an automated convoy which implements self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during the Fall 2024 quarter.
 
+## Goals
+- Lane Switching with a RC car
+- Lane Following 
+- Adaptive Cruise Control
+
+## Achievements
+- Lane Following Model for RC cqar
+- Lane Switching
+  
 ## Team #13 Members
 - Joel Jijo
   - Electrical Engineering
