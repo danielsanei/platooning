@@ -31,7 +31,7 @@ The Platooning project aims to develop an autonomous car system capable of safel
   - Computer Engineering
  
 ## Project Structure
-- Hardware: Jetson Nano, VESC, OAK-D Camera, Lidar, GNSS
+- Hardware: Jetson Nano, VESC, OAK-D Camera, Lidar, GNSS, Logitech F710
 - Software: ROS2 Humble, OpenCV (CUDA), YOLOv5, PyTorch, TensorFlow
 - Integration: Lane detection, object detection
 
@@ -68,11 +68,22 @@ We made further refinements to our design, resulting in a more organized look:
 
 ## Software Setup
 
-Our first step on the software side was to flash the Micro SD card that will hold the Ubuntu operating system for our SBC. We obtained UCSD's Jetson Nano Developer Kit SD card image, though our initial attempts instantly failed as our provided microSD adapter was faulty. After getting ahold of a working adapter, we used Etcher to flash our SD card, which also failed twice after reaching 99% completion. Upon trying again with another team member's Mac computer (as opposed to Windows), we finally successfully flashed our image.
+### Flashing Ubuntu
+
+Our first step on the software side was to flash the Micro SD card that will hold the Ubuntu (version 18.04) operating system for our SBC. We obtained UCSD's Jetson Nano Developer Kit SD card image, though our initial attempts instantly failed as our provided microSD adapter was faulty. After getting ahold of a working adapter, we used Etcher to flash our SD card, which also failed twice after reaching 99% completion. Upon trying again with another team member's Mac computer (as opposed to Windows), we finally successfully flashed our image.
 
 Using a 5V power supply with a barrel jack connector, we powered on the Jetson Nano using a wall outlet. As our system was fresh, we started with wired communication to configure the WiFi network and make note of the SBC's IP address. To secure our SBC access for the quarter, we changed the host name and password to unique credentials. Strangely, after rebooting our Jetson Nano, we were unable to log in despite using the exact same host name and password that we had set earlier. After debugging further, we concluded that the most time-effective solution was to simply re-flash our SD card. After doing so, we finalized our setup by performing some basic system health checks and cleanup operations.
+
+### Installing OpenCV
 
 To leverage the Jetson Nano's GPU, we needed to install OpenCV from source so that we could enable CUDA acceleration, which would optimize our performance in computer vision tasks such as lane and object detection. This installation process takes 4 hours, which we performed 5 times before eventually debugging what was a memory issue. Our reference document instructed us to run "sudo reboot" after creating our 4 GB swap file, however, this would reset and delete the created swap file. By simply omitting that step, our OpenCV installation was finally successful!
 
 ![image](https://github.com/user-attachments/assets/d825d1a2-4d30-42ad-8bf7-c640e62298c0)
 
+### Autonomous Driving with Machine Learning
+
+For our course deliverables, we were instructed to use the DonkeyCar framework. This open-source framework for training self-driving cars using Python, TensorFlow, and Keras, and supports deep learning and reinforcement learning. To set it up, we created a virtual environment, and installed DonkeyCar and all its necessary dependencies. 
+
+Our first task was to train a model that was robust enough to successfully perform 3 laps at our Engineering Building Unit II (EBU2) course track. After configuring the DonkeyCar with our hardware settings, we ran the framework's training script to train our model. Given Professor Silberman's recommendation of collecting data for at least 20 laps, we performed 30 laps to ensure a robust dataset.
+
+https://github.com/user-attachments/assets/e569d961-fb99-4c43-b340-ee6f2a534348
