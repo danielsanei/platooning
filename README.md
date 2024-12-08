@@ -96,6 +96,20 @@ The training process was as follows: we transferred over data to the UC San Dieg
 4. Lighting was of utmost importance, as data collected during the day would be highly ineffective at night. Essentially, the conditions in which the data is collected must match closely to those during testing.
 5. Sometimes, a system needs to be reset to resolve certain issues, as a strange complication with a corrupted DonkeyCar was only solved by creating a new one.
 
-Despite everything we encountered, we finally succeeded in deploying a smooth-running machine learning model!
+Despite everything we encountered, we finally succeeded in training a robust model, and our car ran 3 autonomous laps!
 
 https://github.com/user-attachments/assets/2dcaf328-d50d-4d93-a6de-34f2dec7c8e1
+
+### Docker Container Setup
+
+At this stage of our project, we needed to some additional set-up configurations in order to continue with using ROS2 (Humble). Since the Jetson Nano runs an outdated version of Ubuntu (18.04) which does not support ROS2, we pulled the course-created Docker container with ROS2 pre-installed as our new development environment. This container was configured with the necessary nodes and packages to complete our remaining course deliverables. We connected to the Jetson Nano remotely through SSH sessions, though this lacked a dedicated GUI. As a solution, we set up X-Forwarding to have any visualization on the Jetson Nano forward onto the computer that was connected. This sometimes resulted in one of our computers running a GUI, which would actually pop up on another teammate's computer as both connected to the Jetson Nano with X-Forwarding enabled. A humorous hiccup amidst the many more serious complications we've had so far.
+
+### Lane Detection using OpenCV
+
+For the next stage, our task was to fine-tune existing filters to detect the lane using OpenCV, and run 3 autonomous laps with live lane centering (rather than on a trained model). After ensuring our calibration node was set to true (as its throttle parameters are automatically set to zero), we ran the nodes to open up the windows below:
+
+![nav_calibration](https://github.com/user-attachments/assets/67927b03-25d0-4458-89e0-68679b5b9f33)
+
+Here, we adjusted our filters by tightening the ranges as close as possible, while retaining a consistent visual of the yellow-dotted lines. Our biggest challenge was at the corners, where we needed to increase the size of the detected lines to account for the larger appearance given the shifted camera angle. We quickly learned that this process was similar to training the machine learning model, as our settings configured for daytime lighting were rendered ineffective during night times, and vice-versa. This required occassional re-tuning, though given our lessons learned from the previous deliverable, we were able to speed up our progress and achieve 3 autonomous laps with lane centering!
+
+https://github.com/user-attachments/assets/60fb2b3e-9622-49fb-8f5d-4f1460c6682e
