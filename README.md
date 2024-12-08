@@ -87,3 +87,15 @@ For our course deliverables, we were instructed to use the DonkeyCar framework. 
 Our first task was to train a model that was robust enough to successfully perform 3 laps at our Engineering Building Unit II (EBU2) course track. After configuring the DonkeyCar with our hardware settings, we ran the framework's training script to train our model. Given Professor Silberman's recommendation of collecting data for at least 20 laps, we performed 30 laps to ensure a robust dataset.
 
 https://github.com/user-attachments/assets/e569d961-fb99-4c43-b340-ee6f2a534348
+
+The training process was as follows: we transferred over data to the UC San Diego GPU cluster (8 CPU, 1 GPU, 16 GB RAM) to remotely train our model before transferring it back to the Jetson Nano, and configuring our DonkeyCar to run using the model rather than manual driving. Our first dataset did not produce a smooth-running model, so we continued to collect data and train new models iteratively, making corrections at each iteration. We learned a few lessons along the way:
+
+1. Each lap must employ the same strategy as the previous. Our model was intended to follow the dotted yellow lines, so during our training laps, we made sure that the car was centered in the middle of the track so as not to lose sight of the yellow lines.
+2. The slower our car's throttle speed, the more reliable the model. For faster speeds, the car must be trained on a much higher number of laps to produce a robust model. 
+3. The camera angle is critical for effectively deploying a model, as the model could fail if the camera angle was even slightly altered in comparison to the images used in the dataset.
+4. Lighting was of utmost importance, as data collected during the day would be highly ineffective at night. Essentially, the conditions in which the data is collected must match closely to those during testing.
+5. Sometimes, a system needs to be reset to resolve certain issues, as a strange complication with a corrupted DonkeyCar was only solved by creating a new one.
+
+Despite everything we encountered, we finally succeeded in deploying a smooth-running machine learning model!
+
+https://github.com/user-attachments/assets/2dcaf328-d50d-4d93-a6de-34f2dec7c8e1
