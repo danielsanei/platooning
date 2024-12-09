@@ -106,10 +106,18 @@ At this stage of our project, we needed to some additional set-up configurations
 
 ### Lane Detection using OpenCV
 
-For the next stage, our task was to fine-tune existing filters to detect the lane using OpenCV, and run 3 autonomous laps with live lane centering (rather than on a trained model). After ensuring our calibration node was set to true (as its throttle parameters are automatically set to zero), we ran the nodes to open up the windows below:
+For the next stage, our task was to fine-tune existing filters to detect the lane using OpenCV, and run 3 autonomous laps with live lane centering (rather than on a trained model). After ensuring our calibration node was set to true (its throttle parameters are automatically set to zero as a safety measure when calibrating), we ran the nodes to open up the windows below:
 
 ![nav_calibration](https://github.com/user-attachments/assets/67927b03-25d0-4458-89e0-68679b5b9f33)
 
-Here, we adjusted our filters by tightening the ranges as close as possible, while retaining a consistent visual of the yellow-dotted lines. Our biggest challenge was at the corners, where we needed to increase the size of the detected lines to account for the larger appearance given the shifted camera angle. We quickly learned that this process was similar to training the machine learning model, as our settings configured for daytime lighting were rendered ineffective during night times, and vice-versa. This required occassional re-tuning, though given our lessons learned from the previous deliverable, we were able to speed up our progress and achieve 3 autonomous laps with lane centering!
+Here, we adjusted our filters by tightening the low and high ranges as close as possible, while retaining a consistent visual of the yellow-dotted lines. Our biggest challenge was at the corners, where we needed to increase the size of the detected lines to account for the larger appearance given the shifted camera angle. We quickly learned that this process was similar to training the machine learning model, as our settings configured for daytime lighting were rendered ineffective during night times, and vice-versa. This required occassional re-tuning, though given our lessons learned from the previous deliverable, we were able to speed up our progress and achieve 3 autonomous laps with lane centering!
 
 https://github.com/user-attachments/assets/60fb2b3e-9622-49fb-8f5d-4f1460c6682e
+
+### GNSS Figure-8 Autonomous Laps
+
+Our final deliverable was to use our GNSS to perform a figure 8 lap around the grass sections at Warren Mall, UCSD, in front of Engineering Building Unit I (EBU I). After setting up the GNSS< we manually drove the car in the intended figure-8 pattern to record GNSS waypoints. The u-blox GPS tracked the car's position, and recorded the drawn path. With some additional PID-tuning, the GNSS was intended to autonomously drive the car in a figure-8 pattern, running 3 laps total. However, despite our persistent efforts to fine-tune the PID parameters, our results were less than ideal:
+
+https://github.com/user-attachments/assets/ce441187-495c-40d4-bf72-20efd4501a66
+
+After hours of debugging, we eventually found that our u-blox data was too noisy to rely on. With the help of the course TAs, we tried replacing it with two backup GPS devices, with no different result. Eventually, we recevied the green light from the TAs to continue with our final project, as we were unable to get ahold of a more stable GPS due to limited class resources. 
