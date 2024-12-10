@@ -1,4 +1,4 @@
-# Platooning Project - A Story of Persistence
+# Convoy Platooning
 ## Table of Contents
 1. Overview
 2. Goals/Achievements
@@ -9,26 +9,42 @@
 ToDo: 7. Codebase Details, 8. Media, 9. Object Detection, 10. Replication, 11. Documentation, 12. Acknowledgements, 13. ToDo: Special Thanks
 
 ## Overview
-The Platooning project aims to develop an autonomous car system capable of safely deploying an automated convoy which implements self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during the Fall 2024 quarter.
+The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
 
-## Goals
-- Lane Switching with a RC car
-- Lane Following 
-- Adaptive Cruise Control
+## Original Goals
+- Design an autonomous vehicle for lane-centered self-driving on a pre-defined track using computer vision.
+- Create an object detection model for recognizing a lead car.
+- Implement adaptive cruise control to dynamically adjust speed and distance while following a lead car.
+- **Stretch Goal:** Develop lane switching logic to track a lead car changing lanes.
+- 
+## Revised Goals
+Our initial focus was adaptive cruise control. However, noticing overlap with another team's project, we consulted with Professor Silberman during a sprint review. He recommended prioritizing convoy platooning and lane switching while integratinng the other team's adaptive cruise control development by the end of the quarter. Our revised goals are as follows:
+- Prioritize lane switching to track a lead car when it changes lanes.
+- **Stretch Goal:** Integrate adaptive cruise control (from another team) into the platooning system.
+- **Stretch Goal:** Achieve true convoy platooning, with our autonomous car between the lead car and another class car.
 
-## Achievements
-- Lane Following Model for RC cqar
-- Lane Switching
+## Accomplishments
+- Achieved lead car following using OpenCV-based object detection.
+- Completed lane switching logic to follow a lead car changing lanes.
+- Implemented an emergency-braking system with 2D LiDAR.
+
+## Challenges
+We faced significant challenges in deploying the lead car object detection model, as well as many other technical complications throughout the quarter. Despite our obstacles, we successfully delivered core project features, with an new emergency braking system as a new addition.
+
+## Future Goals
+- Refine lane switching for smoother steering when following a lead car.
+- Develop a secondary object detection model to identify cars following the lead car and achieve true convoy platooning.
+- Integrate adaptive cruise control to dynamically adjust speed and distance while following a lead car.
   
 ## Team #13 Members
 - Joel Jijo
-  - Electrical Engineering
+  - Electrical Engineering, Class of 2026
 - Maximilian Komm
-  - Industrial Engineering
+  - Industrial Engineering, Class of 2025
 - Ruochen Li
-  - Mechanical Engineering
+  - Mechanical Engineering, Class of 2026
 - Daniel Sanei
-  - Computer Engineering
+  - Computer Engineering, Class of 2026
  
 ## Project Structure
 - Hardware: Jetson Nano, VESC, OAK-D Camera, Lidar, GNSS, Logitech F710
