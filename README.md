@@ -149,6 +149,7 @@ Install fastapi to setup api server and ultralytics to use the model.
 pip install fastapi
 pip install ultralytics
 '''
+
 ### Build API server
 1. Make sure object_detection_api.py and "your_model".pt is in the same folder.
 2. Open object_detection_api.py, modify model = YOLO("path/to/your/model.pt")
