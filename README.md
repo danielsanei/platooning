@@ -145,20 +145,17 @@ Steps:
 ### Install Dependencies
 Install fastapi to setup api server and ultralytics to use the model.
 '''cmd
-// pip install fastapi
-// pip install ultralytics
-'''
+pip install fastapi
+pip install ultralytics
 ### Build API server
 1. Make sure object_detection_api.py and "your_model".pt is in the same folder.
 2. Open object_detection_api.py, modify model = YOLO("path/to/your/model.pt")
 3. In commamd line, go to to folder where object_detection_api.py is, and use command
    '''cmd
-   // uvicorn object_detection_api:app --host your_ip_address --port port_number --reload
-   '''
+   uvicorn object_detection_api:app --host your_ip_address --port port_number --reload
    which your_ip_address is the IPv4 address of the PC hosting api server, for example:
    '''cmd
-   // uvicorn object_detection_api:app --host 127.0.0.1 --port 8080 --reload
-   '''
+   uvicorn object_detection_api:app --host 127.0.0.1 --port 8080 --reload
 4. In a browser, go to your_ip_address:port_number/docs. If a page is shown, that means the API server has been established successfully.
 Optional: Test your model in your_ip_address:port_number/docs.
 
