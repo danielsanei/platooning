@@ -137,3 +137,33 @@ Our final deliverable was to use our GNSS to perform a figure 8 lap around the g
 https://github.com/user-attachments/assets/ce441187-495c-40d4-bf72-20efd4501a66
 
 After hours of debugging, we eventually found that our u-blox data was too noisy to rely on. With the help of the course TAs, we tried replacing it with two backup GPS devices, with no different result. Eventually, we recevied the green light from the TAs to continue with our final project, as we were unable to get ahold of a more stable GPS due to limited class resources. 
+
+## Applying Model Through ROS2 and FastAPI
+
+In order to use model through API request, the first thing to do is to setup an API server.
+Steps:
+### Install Dependencies
+Install fastapi to setup api server and ultralytics to use the model.
+'''cmd
+// pip install fastapi
+// pip install ultralytics
+'''
+### Build API server
+1. Make sure object_detection_api.py and "your_model".pt is in the same folder.
+2. Open object_detection_api.py, modify model = YOLO("path/to/your/model.pt")
+3. In commamd line, go to to folder where object_detection_api.py is, and use command
+   '''cmd
+   // uvicorn object_detection_api:app --host your_ip_address --port port_number --reload
+   '''
+   which your_ip_address is the IPv4 address of the PC hosting api server, for example:
+   '''cmd
+   // uvicorn object_detection_api:app --host 127.0.0.1 --port 8080 --reload
+   '''
+4. In a browser, go to your_ip_address:port_number/docs. If a page is shown, that means the API server has been established successfully.
+Optional: Test your model in your_ip_address:port_number/docs.
+
+### Sending API Request
+1. In the machine that runs the object_detection_node_api, ping the ip address of API server to test if it's reachable.
+2. Modify code of object_detection_node_api, change API_URL to the ip address of the API server, such as "http://127.0.0.1:8080/detects"
+3. Run object_detection_node_api. If it recieves data from the camera topic, API server should be working and send prediction back. In the terminal that starts API server, it will display information when a request is made.
+   
