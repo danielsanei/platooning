@@ -197,5 +197,5 @@ pip install ultralytics
     ```cmd
    source install/setup.bash
    colcon build
-   ros2 launch turning_node_pkg turning_demo_node.py
+   ros2 run turning_node_pkg turning_demo_node.py
 7. After these steps, the car should begin running autonomously.
