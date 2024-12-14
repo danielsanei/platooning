@@ -171,4 +171,22 @@ Optional: Test your model in your_ip_address:port_number/docs.
 1. In the machine that runs the object_detection_node_api, ping the ip address of API server to test if it's reachable.
 2. Modify code of object_detection_node_api, change API_URL to the ip address of the API server, such as "http://127.0.0.1:8080/detects"
 3. Run object_detection_node_api. If it recieves data from the camera topic, API server should be working and send prediction back. In the terminal that starts API server, it will display information when a request is made.
+
+### Object Detection using Model
+
+1. Open two different terminals and create and access the same docker on said terminals
+2. Make sure the API server is set up on the computer (instructions in Applying Model Through ROS2 and FastAPI)
+3. Go into a directory in the docker and set up the object_detection_pkg, and then run
+   ```cmd
+   source install/setup.bash
+   colcon build
+   ros2 run object_detection_pkg object_detection_node_api
+5. After making sure its printing out the predictions on the device that is hosting the api
+6. Then go and create a new directory under /home/projects/ for the turning_node_pkg
+    ```cmd
+   source install/setup.bash
+   colcon build
+   ros2 launch turning_node_pkg turning_demo_node.py
+7. The car should be running after this 
+   
    
