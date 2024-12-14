@@ -170,7 +170,7 @@ pip install ultralytics
    ```cmd
    uvicorn object_detection_api:app --host 127.0.0.1 --port 8080 --reload
    ```
-5. Open a browser and navigate to `http://[YOUR_IP_ADDRESS]:[PORT_NUMBER]/docs`. If the page loads, the API server is running successfully. You may optionally test your model through the `/detects` endpoint at this address.
+5. Open a browser and navigate to `http://[YOUR_IP_ADDRESS]:[PORT_NUMBER]/docs`. If the page loads, the API server is running successfully. You may optionally test your model at this address.
 
 #### Sending API Requests
 1. On the machine running `object_detection_node_api`, test the connectivity to the API server by pinging its IP address to ensure it is reachable.
