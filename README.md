@@ -1,12 +1,14 @@
 # Convoy Platooning
 ## Table of Contents
 1. Overview
-2. Goals/Achievements
-3. Team Members
-4. Project Structure
-5. Build & Assembly
-6. Software Setup
-ToDo: 7. Codebase Details, 8. Media, 9. Object Detection, 10. Replication, 11. Documentation, 12. Acknowledgements, 13. ToDo: Special Thanks
+2. Goals & Achievements
+3. Accomplishments & Challenges
+4. Team Members
+5. Project Structure
+6. Build & Assembly
+7. Software Setup
+8. Replication
+9. Acknowledgements
 
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
@@ -16,7 +18,7 @@ The Platooning project aims to develop an autonomous car system for safely deplo
 - Create an object detection model for recognizing a lead car.
 - Implement adaptive cruise control to dynamically adjust speed and distance while following a lead car.
 - **Stretch Goal:** Develop lane switching logic to track a lead car changing lanes.
-- 
+
 ## Revised Goals
 Our initial focus was adaptive cruise control. However, noticing overlap with another team's project, we consulted with Professor Silberman during a sprint review. He recommended prioritizing convoy platooning and lane switching while integratinng the other team's adaptive cruise control development by the end of the quarter. Our revised goals are as follows:
 - Prioritize lane switching to track a lead car when it changes lanes.
@@ -138,55 +140,62 @@ https://github.com/user-attachments/assets/ce441187-495c-40d4-bf72-20efd4501a66
 
 After hours of debugging, we eventually found that our u-blox data was too noisy to rely on. With the help of the course TAs, we tried replacing it with two backup GPS devices, with no different result. Eventually, we recevied the green light from the TAs to continue with our final project, as we were unable to get ahold of a more stable GPS due to limited class resources. 
 
-## Applying Model Through ROS2 and FastAPI
+## Replication
 
-In order to use model through API request, the first thing to do is to setup an API server.
-Steps:
-### Install Dependencies
-Install fastapi to setup api server and ultralytics to use the model.
+### Object Detection via FastAPI
+
+Our RoboFlow model was deployed on a local computer, hosting a FastAPI server to run object detection on incoming images. ROS2 nodes transmitted video feed data to the local server through an API request, where the images were processed to return real-time detection results. The steps below serve as a guide to configure this setup:
+
+#### Install Dependencies
+
+In order to use the model through API requests, the first thing to do is to setup an API server. Install `fastapi` to setup the server and `ultralytics` to use the model.
 
 ```bash
 pip install fastapi
 pip install ultralytics
 ```
 
-### Build API server
-1. Make sure object_detection_api.py and "your_model".pt is in the same folder.
-2. Open object_detection_api.py, modify model = YOLO("path/to/your/model.pt")
-3. In commamd line, go to to folder where object_detection_api.py is, and use command
+#### Build API server
 
+1. Ensure `object_detection_api.py` and `[YOUR_MODEL].pt` are in the same directory.
+2. Edit the following line in `object_detection_api.py` to point to your model.
    ```cmd
-   uvicorn object_detection_api:app --host your_ip_address --port port_number --reload
+   model = YOLO("path/to/your/model.pt")
    ```
-   which your_ip_address is the IPv4 address of the PC hosting api server, for example:
-
+4. In the terminal, navigate to the folder containing `object_detection_api.py`, and start the API server.
+   ```cmd
+   uvicorn object_detection_api:app --host [YOUR_IP_ADDRESS] --port [PORT_NUMBER] --reload
+   ```
+   Ensure that you use the IPv4 address for the computer hosting the API server.
    ```cmd
    uvicorn object_detection_api:app --host 127.0.0.1 --port 8080 --reload
    ```
+5. Open a browser and navigate to `http://[YOUR_IP_ADDRESS]:[PORT_NUMBER]/docs`. If the page loads, the API server is running successfully. You may optionally test your model through the `/detects` endpoint at this address.
 
-4. In a browser, go to your_ip_address:port_number/docs. If a page is shown, that means the API server has been established successfully.
-Optional: Test your model in your_ip_address:port_number/docs.
+#### Sending API Requests
+1. On the machine running `object_detection_node_api`, test the connectivity to the API server by pinging its IP address to ensure it is reachable.
+   ```cmd
+   ping [YOUR_IP_ADDRESS]
+   ```
+3. Update the `API_URL` in `object_detection_node_api` to the API server address. Ensure that the ROS2 nodes and the API server are on the same network for communication.
+   ```cmd
+   http://[YOUR_IP_ADDRESS]:[PORT_NUMBER]/detects
+   ```
+6. Run `object_detection_node_api`. If it recieves data from the camera topic, the API server should send predictions back. Check the API server terminal for request logs.
 
-### Sending API Request
-1. In the machine that runs the object_detection_node_api, ping the ip address of API server to test if it's reachable.
-2. Modify code of object_detection_node_api, change API_URL to the ip address of the API server, such as "http://127.0.0.1:8080/detects"
-3. Run object_detection_node_api. If it recieves data from the camera topic, API server should be working and send prediction back. In the terminal that starts API server, it will display information when a request is made.
+#### Running Object Detection Using the Model
 
-### Object Detection using Model
-
-1. Open two different terminals and create and access the same docker on said terminals
-2. Make sure the API server is set up on the computer (instructions in Applying Model Through ROS2 and FastAPI)
-3. Go into a directory in the docker and set up the object_detection_pkg, and then run
+1. Open two terminals and access the same Docker container in both.
+2. Ensure the API server is set up on the host machine (as described above).
+3. Navigate to the project directory in the Docker container, and build `object_detection_pkg`,.
    ```cmd
    source install/setup.bash
    colcon build
    ros2 run object_detection_pkg object_detection_node_api
-5. After making sure its printing out the predictions on the device that is hosting the api
-6. Then go and create a new directory under /home/projects/ for the turning_node_pkg
+5. Verify that predictions from the API sever are displayed in the terminal running `object_detection_node_api`.
+6. Create a new directory under `/home/projects/` for the `turning_node_pkg`.
     ```cmd
    source install/setup.bash
    colcon build
    ros2 launch turning_node_pkg turning_demo_node.py
-7. The car should be running after this 
-   
-   
+7. After these steps, the car should begin running autonomously.
