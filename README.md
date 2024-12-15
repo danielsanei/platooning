@@ -178,7 +178,6 @@ After hours of debugging, we eventually found that our u-blox data was too noisy
 ## Replication
 
 ### Object Detection via FastAPI
-
 Our RoboFlow model was deployed on a local computer, hosting a FastAPI server to run object detection on incoming images. ROS2 nodes transmitted video feed data to the local server through an API request, where the images were processed to return real-time detection results. The steps below serve as a guide to configure this setup:
 
 #### Install Dependencies
@@ -234,6 +233,59 @@ pip install ultralytics
    colcon build
    ros2 run turning_node_pkg turning_demo_node.py
 7. After these steps, the car should begin running autonomously.
+
+### Emergency Braking System via LiDAR
+Our emergency braking system used a 2D LiDAR sensor for its high accuracy in detecting distances within a 360-degree field of view. The LiDAR node operated independently from our object detection and lane-centering ROS2 nodes. This system monitored surroundings within a defined angle range and triggered braking when an obstacle was detected within the safety distance.
+
+#### Creating the Wall Detector
+1. Create the `wall_detector` package (here, our workspace is called `ros2_ws`).
+   ```cmd
+   cd ~/projects/ros2_ws/src
+   ros2 pkg create wall_detector --build-type ament_python
+   ```
+2. Add the `wall_detector.py` script to the package.
+    ```cmd
+   ~/projects/ros2_ws/src/wall_detector/wall_detector.py
+   ```
+3. Modify `setup.py` to include the new `wall_detector` node.
+   ```cmd
+   entry_points={
+    'console_scripts': [
+        'wall_detector = wall_detector.wall_detector:main',
+       ],
+   },
+   ```
+4. Inside `wall_detector.py`, adjust the angle scan range to match your desired values. Recall that you may need to adjust these values based on the increment, as described in the `Achievements & Challenges` section (i.e. if the increment is set to 0.2, then 360 degrees is actually 360 * 0.2 = 72 degrees).
+   ```cmd
+   front_ranges = msg.ranges[0:int(360 / 0.2)]  # Adjust for a 0.2-degree increment
+   ```
+5. Build the package with the following commands.
+   ```cmd
+   cd ~/projects/ros2_ws
+   colcon build
+   source install/setup.bash
+   ```
+
+#### Running the Wall Detector
+1. Launch two terminals and in both, enter your Docker container which includes the necessary dependencies for your system environment.
+   ```cmd
+   docker exec -it [YOUR_DOCKER_CONTAINER] bash
+   ```
+2. In one terminal, start the `lane_detection` node to activate the car's throttle, and begin autonomous driving using lane-centering and object detection.
+   ```cmd
+   ros2 launch ucsd_robocar_lane_detection2_pkg lane_detection.launch.py
+   ```
+3. In the second terminal, start the `wall_detector` node to activate the emergency braking system.
+   ```cmd
+   ros2 run wall_detector wall_detector
+   ```
+4. Verify the emergency braking system is correctly operating by checking the second terminal for LiDAR data outputs, which should display the calculated average distances (or minimum distance, depending on your configuration).
+
+Note that if the `wall_detector` node detects an obstacle within the specified ranges, it will publish a stop signal that shuts down all active ROS2 nodes. This will stop your car entirely, and you will need to restart both the `lane_detection` and 'wall_detector` nodes to resume autonomous driving.
+
+
+#### Setting the Angles to Scan
+As mentioned in the challenges section, the LiDAR scans for angles in increments rather than integer degree scans . For accurately setting the angles, ensure that your integer degrees are converted to increments so that the obstacle detect operates as expected.
 
 ## Lessons Learned
 Throughout the project, we encountered numerous technical challenges, including hardware failures, limitations, and software compatibility issues. At times, it felt as though every step forward required taking two steps back. However, these complications provided us with opportunities to develop patience, resilience, and determination as we worked tirelessly to achieve our goals and deliver functioning platooning prototype. Our experience not only highlighted the importance of iterative development, but also strengthened our communication skills as collaborated to overcome each obstacle as a team.
