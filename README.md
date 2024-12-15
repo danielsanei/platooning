@@ -23,23 +23,24 @@
 10. [Lessons Learned](#lessons-learned)
 11. [Acknowledgements](#acknowledgements)
 
-
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
 
-## Original Goals
+## Goals & Accomplishments
+
+### Original Goals
 - Design an autonomous vehicle for lane-centered self-driving on a pre-defined track using computer vision.
 - Create an object detection model for recognizing a lead car.
 - Implement adaptive cruise control to dynamically adjust speed and distance while following a lead car.
 - **Stretch Goal:** Develop lane switching logic to track a lead car changing lanes.
 
-## Revised Goals
+### Revised Goals
 Our initial focus was adaptive cruise control. However, noticing overlap with another team's project, we consulted with Professor Silberman during a sprint review. He recommended prioritizing convoy platooning and lane switching while integratinng the other team's adaptive cruise control development by the end of the quarter. Our revised goals are as follows:
 - Prioritize lane switching to track a lead car when it changes lanes.
 - **Stretch Goal:** Integrate adaptive cruise control (from another team) into the platooning system.
 - **Stretch Goal:** Achieve true convoy platooning, with our autonomous car between the lead car and another class car.
 
-## Accomplishments
+### Accomplishments
 - Achieved lead car following using OpenCV-based object detection.
 - Completed lane switching logic to follow a lead car changing lanes.
 - Implemented an emergency-braking system with 2D LiDAR.
@@ -96,7 +97,7 @@ With just two weeks left, we quickly redesigned, reprinted, and reassmbled the d
 - Develop a secondary object detection model to identify cars following the lead car and achieve true convoy platooning.
 - Integrate adaptive cruise control to dynamically adjust speed and distance while following a lead car.
   
-## Team #13 Members
+## Team Members
 
 ![image](https://github.com/user-attachments/assets/57a6e454-b87f-44ef-ba27-bab961329b77)
 
@@ -325,5 +326,5 @@ As mentioned in the challenges section, the LiDAR scans for angles in increments
 ## Lessons Learned
 Throughout the project, we encountered numerous technical challenges, including hardware failures, limitations, and software compatibility issues. At times, it felt as though every step forward required taking two steps back. However, these complications provided us with opportunities to develop patience, resilience, and determination as we worked tirelessly to achieve our goals and deliver functioning platooning prototype. Our experience not only highlighted the importance of iterative development, but also strengthened our communication skills as collaborated to overcome each obstacle as a team.
 
-## Achnowledgements
+## Acknowledgements
 We would like to express our sincere gratitude to Professor Jack Silberman for his guidance and support throughout this project. We also extend our deepest thanks to our teaching assistants, Winston Chou and Alexandar Haken, for their unwavering dedication and efforts in supporting our team through various challenges. Their expertise and encouragement made this project an enriching and rewarding experience!
