@@ -4,17 +4,18 @@
 
 ## Table of Contents
 1. Overview
-2. Goals & Achievements
-3. Accomplishments & Challenges
-4. Team Members
-5. Project Structure
-6. Build & Assembly
-7. Software Setup
-8. Replication
+2. Goals & Accomplishments
+3. Video Demonstrations
+4. Challenges
+5. Team Members
+6. Project Structure
+7. Build & Assembly
+8. Software Setup
+9. Replication
    - Object Detection via FastAPI
    - Emergency Braking System via LiDar
-9. Lessons Learned
-10. Acknowledgements
+10. Lessons Learned
+11. Acknowledgements
 
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
@@ -36,6 +37,9 @@ Our initial focus was adaptive cruise control. However, noticing overlap with an
 - Completed lane switching logic to follow a lead car changing lanes.
 - Implemented an emergency-braking system with 2D LiDAR.
 
+## Video Demonstrations
+
+  
 ## Challenges
 We faced significant challenges in deploying the lead car object detection model, as well as many other technical complications throughout the quarter. Despite our obstacles, we successfully delivered core project features, with an new emergency braking system as a new addition. Below are key insights to assist future teams working with similar hardware and project goals.
 
@@ -55,6 +59,11 @@ Initially, our system was configured to take LiDAR distance measurements within 
 Upon analysis, we identified two key inefficiencies with our initial approach:
 1. **Averaging Measurements**: Calculating the average distance cuased issues when objects at farther distances skewed the final value. For example, if an obstacle was 3 meters away, but the average value was 4 meters, the car would continue driving and crash into the obstacle.
 2. ** LiDAR Incremental Scanning:** The LiDAR did not perform a true 360-degree scan, but operated in increments rather than integer degrees. For instance, with an incremement of 0.2 degrees, a range between 0 and 360 degrees actually covered up to 360 x 0.2 = 72 degrees. As a result, the car may stop due to an obstacle 72 degrees to the side rather than directly in front, and the calculated average included values 72 degrees to the side. This finding greatly impacted our results, and explained the strange behaviors noted above.
+
+### Re-Size Memory Card Partition
+We started our project using a 64 GB SD card, and eventually ran out of free memory space. We copied an image of this SD card and flashed a new 512 GB SD card as our new replacement. However, the new card retained the original partition size of 64 GB rather than the available 512 GB memory storage.
+
+To resolve this, we first used the `fdisk` partitioning tool to delete the primary partition without deleting its data, and recreating it to occupy the full SD card space before finally writing and exiting. Then, we resized the primary partition `/dev/mmcblk0p1` using the `sudo resize2fs` command. This command extended the filesystem to utilize the full storage of the new 512 GB card.
 
 ## Future Goals
 - Refine lane switching for smoother steering when following a lead car.
