@@ -10,7 +10,7 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Goals & Accomplishments](#goals-accomplishments)
+2. [Goals & Accomplishments](#goals-&-accomplishments)
    - [Original Goals](#original-goals)
    - [Revised Goals](#revised-goals)
    - [Accomplishments](#accomplishments)
