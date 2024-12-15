@@ -75,9 +75,18 @@ Upon analysis, we identified two key inefficiencies with our initial approach:
   - Computer Engineering, Class of 2026
  
 ## Project Structure
+
+### Technology Stack
 - Hardware: Jetson Nano, VESC, OAK-D Camera, Lidar, GNSS, Logitech F710
 - Software: ROS2 Humble, OpenCV (CUDA), YOLOv5, PyTorch, TensorFlow
 - Integration: Lane detection, object detection
+
+### Code
+1. `lane_detection.py`: Processes camera images to detect lanes, calculates centroid errors, and publishes these errors for vehicle steering adjustments.
+2. `object_detection_api.py`: Hosts a FastAPI server to run the RoboFlow object detection model, and returns detection results.
+3. `object_detection_node_api.py`: Subscribes to the camera feed, sends images to the FastAPI server for object detection, and publishes the detection results.
+4. `turning_demo_node.py`: Implements a PID controller for steering and throttle adjustments based on input from centroid errors, object detection, and wall detection.
+5. `wall_detector.py`: Uses LiDAR data to detect walls or obstacles in front of the vehicle and triggers an emergency stop if a wall is detected within a specified distance.
 
 ## Build & Assembly
 For this project, we were provided an RC car platform which served as the chassis of our car. This chassis came with a steering servo motor and a brushless DC motor for driving and steering the wheels. Our first task was to design and create a base plate for mounting our essential hardware, and to 3D print a case for the Jetson Nano, and a mount for the LiDar camera. We went through several sketches and iterations before getting our final measurements.
