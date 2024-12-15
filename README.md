@@ -17,9 +17,7 @@
 6. [Project Structure](#project-structure)
 7. [Build & Assembly](#build--assembly)
 8. [Software Setup](#software-setup)
-9. Replication
-   - [Object Detection via FastAPI](#object-detection-via-fastapi)
-   - [Emergency Braking System via LiDAR](#emergency-braking-system-via-lidar)
+9. [Replication](#replication)
 10. [Lessons Learned](#lessons-learned)
 11. [Acknowledgements](#acknowledgements)
 
