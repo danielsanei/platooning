@@ -1,5 +1,7 @@
 # Convoy Platooning
 
+![image](https://github.com/user-attachments/assets/ca2227ee-df92-4f81-9013-2533bbc3445a)
+
 ## Table of Contents
 1. Overview
 2. Goals & Achievements
@@ -60,6 +62,9 @@ Upon analysis, we identified two key inefficiencies with our initial approach:
 - Integrate adaptive cruise control to dynamically adjust speed and distance while following a lead car.
   
 ## Team #13 Members
+
+![image](https://github.com/user-attachments/assets/57a6e454-b87f-44ef-ba27-bab961329b77)
+
 - Joel Jijo
   - Electrical Engineering, Class of 2026
 - Maximilian Komm
@@ -222,5 +227,7 @@ pip install ultralytics
 7. After these steps, the car should begin running autonomously.
 
 ## Lessons Learned
+Throughout the project, we encountered numerous technical challenges, including hardware failures, limitations, and software compatibility issues. At times, it felt as though every step forward required taking two steps back. However, these complications provided us with opportunities to develop patience, resilience, and determination as we worked tirelessly to achieve our goals and deliver functioning platooning prototype. Our experience not only highlighted the importance of iterative development, but also strengthened our communication skills as collaborated to overcome each obstacle as a team.
 
 ## Achnowledgements
+We would like to express our sincere gratitude to Professor Jack Silberman for his guidance and support throughout this project. We also extend our deepest thanks to our teaching assistants, Winston Chou and Alexandar Haken, for their unwavering dedication and efforts in supporting our team through various challenges. Their expertise and encouragement made this project an enriching and rewarding experience!
