@@ -1,4 +1,5 @@
 # Convoy Platooning
+
 ## Table of Contents
 1. Overview
 2. Goals & Achievements
@@ -8,7 +9,10 @@
 6. Build & Assembly
 7. Software Setup
 8. Replication
-9. Acknowledgements
+   - Object Detection via FastAPI
+   - Emergency Braking System via LiDar
+9. Lessons Learned
+10. Acknowledgements
 
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
@@ -31,7 +35,24 @@ Our initial focus was adaptive cruise control. However, noticing overlap with an
 - Implemented an emergency-braking system with 2D LiDAR.
 
 ## Challenges
-We faced significant challenges in deploying the lead car object detection model, as well as many other technical complications throughout the quarter. Despite our obstacles, we successfully delivered core project features, with an new emergency braking system as a new addition.
+We faced significant challenges in deploying the lead car object detection model, as well as many other technical complications throughout the quarter. Despite our obstacles, we successfully delivered core project features, with an new emergency braking system as a new addition. Below are key insights to assist future teams working with similar hardware and project goals.
+
+### Object Detection Model Deployment
+Deploying the lead car object detection model from Roboflow presented several technical challenges.
+
+1. **Edge Device Inference Issues**: Our initial approach was to utilize the Luxonis OAK-D camera for edge device inference, leveraging its built in neural network and computer vision capabilities. This method aimed to offload some computation from the Jetson Nano by running the object detection model directly on the camera. However, this implementation failed due to a persisting error that could not be resolved.
+2. **Hardware Limitations:** Our initial 64 GB SD card did not have sufficient free memory space to locally deploy the Roboflow model.
+3. **Software Limitations:** The Jetson Nano ran Ubuntu 18.04, which was incompatible with ROS2 Humble. As a workaround, the course provided a Docker container pre-configured with the updated Ubuntu 22.04 and ROS2 Humble. However, the container lacked GPU access, forcing the model to run using the CPU alone. This caused significant performance bottlenecks, with inference times reaching 6 times per second on the visual display and 3 seconds per frame internally, making local real-time inference impractical.
+
+To overcome these challenges, we offloaded the object detection model to a FastAPI server hosted on a local computer. This allowed the local machine to take advantage of its more powerful CPU, enabling the object detection model to run effectively at real-time. Additionally, by sending API requests rather than run the model locally, the Jetson Nano was spared the intensive computation required by the model, which also achieves our initial goal.
+
+On the side, we also eventually re-trained the model on RoboFlow. This resolved the error from earlier, and we discovered the root cause was simply a faulty model.
+
+### LiDAR Incremental Scanning
+Initially, our system was configured to take LiDAR distance measurements within a range of 355 to 5 degrees (a 10-degree span) to calcualte the average of all measurements. However, this setup led to unexpected behaviors: the car would sometimes brake unecessarily when no object was in front, and at other times, fail to stop when an obstacle was directly ahead.
+Upon analysis, we identified two key inefficiencies with our initial approach:
+1. **Averaging Measurements**: Calculating the average distance cuased issues when objects at farther distances skewed the final value. For example, if an obstacle was 3 meters away, but the average value was 4 meters, the car would continue driving and crash into the obstacle.
+2. ** LiDAR Incremental Scanning:** The LiDAR did not perform a true 360-degree scan, but operated in increments rather than integer degrees. For instance, with an incremement of 0.2 degrees, a range between 0 and 360 degrees actually covered up to 360 x 0.2 = 72 degrees. As a result, the car may stop due to an obstacle 72 degrees to the side rather than directly in front, and the calculated average included values 72 degrees to the side. This finding greatly impacted our results, and explained the strange behaviors noted above.
 
 ## Future Goals
 - Refine lane switching for smoother steering when following a lead car.
@@ -199,3 +220,7 @@ pip install ultralytics
    colcon build
    ros2 run turning_node_pkg turning_demo_node.py
 7. After these steps, the car should begin running autonomously.
+
+## Lessons Learned
+
+## Achnowledgements
