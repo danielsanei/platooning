@@ -1,21 +1,28 @@
-# Convoy Platooning
+<div align="center">
+<h1>Convoy Platooning</h1>
+   
+![image](https://github.com/user-attachments/assets/6e76ceaf-14fe-45d3-a85f-55117e9eaa97)
+
+<h2>Autonomous Vehicles - Final Project<br>Team #13 - Fall 2024</h2>
 
 ![image](https://github.com/user-attachments/assets/ca2227ee-df92-4f81-9013-2533bbc3445a)
+</div>
 
 ## Table of Contents
-1. Overview
-2. Goals & Accomplishments
-3. Video Demonstrations
-4. Challenges
-5. Team Members
-6. Project Structure
-7. Build & Assembly
-8. Software Setup
+1. [Overview](#overview)
+2. [Goals & Accomplishments](#goals--accomplishments)
+3. [Video Demonstrations](#video-demonstrations)
+4. [Challenges](#challenges)
+5. [Team Members](#team-members)
+6. [Project Structure](#project-structure)
+7. [Build & Assembly](#build--assembly)
+8. [Software Setup](#software-setup)
 9. Replication
-   - Object Detection via FastAPI
-   - Emergency Braking System via LiDar
-10. Lessons Learned
-11. Acknowledgements
+   - [Object Detection via FastAPI](#object-detection-via-fastapi)
+   - [Emergency Braking System via LiDAR](#emergency-braking-system-via-lidar)
+10. [Lessons Learned](#lessons-learned)
+11. [Acknowledgements](#acknowledgements)
+
 
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
@@ -39,7 +46,21 @@ Our initial focus was adaptive cruise control. However, noticing overlap with an
 
 ## Video Demonstrations
 
-  
+### Object Detection Model
+https://github.com/user-attachments/assets/413b1b09-951a-4c31-9895-cf87d444e294
+
+### Static Lead Car Following
+https://github.com/user-attachments/assets/0055cf35-a9c8-4b17-9804-4d625a7b41ca
+
+### Emergency Braking System
+https://github.com/user-attachments/assets/32447180-94ba-4e47-a1bf-0e56fe05ff11
+
+### Lane Centering
+https://github.com/user-attachments/assets/643741ac-5b76-4ac5-a23d-bc56d905cc1e
+
+### Lead Car Lane-Switching
+https://github.com/user-attachments/assets/f2674d6f-9fba-4aab-8485-085a45f5f64d
+
 ## Challenges
 We faced significant challenges in deploying the lead car object detection model, as well as many other technical complications throughout the quarter. Despite our obstacles, we successfully delivered core project features, with an new emergency braking system as a new addition. Below are key insights to assist future teams working with similar hardware and project goals.
 
@@ -60,10 +81,15 @@ Upon analysis, we identified two key inefficiencies with our initial approach:
 1. **Averaging Measurements**: Calculating the average distance cuased issues when objects at farther distances skewed the final value. For example, if an obstacle was 3 meters away, but the average value was 4 meters, the car would continue driving and crash into the obstacle.
 2. ** LiDAR Incremental Scanning:** The LiDAR did not perform a true 360-degree scan, but operated in increments rather than integer degrees. For instance, with an incremement of 0.2 degrees, a range between 0 and 360 degrees actually covered up to 360 x 0.2 = 72 degrees. As a result, the car may stop due to an obstacle 72 degrees to the side rather than directly in front, and the calculated average included values 72 degrees to the side. This finding greatly impacted our results, and explained the strange behaviors noted above.
 
-### Re-Size Memory Card Partition
+### Expanding SD Card Storage
 We started our project using a 64 GB SD card, and eventually ran out of free memory space. We copied an image of this SD card and flashed a new 512 GB SD card as our new replacement. However, the new card retained the original partition size of 64 GB rather than the available 512 GB memory storage.
 
 To resolve this, we first used the `fdisk` partitioning tool to delete the primary partition without deleting its data, and recreating it to occupy the full SD card space before finally writing and exiting. Then, we resized the primary partition `/dev/mmcblk0p1` using the `sudo resize2fs` command. This command extended the filesystem to utilize the full storage of the new 512 GB card.
+
+### Car Crash
+The day before Thanksgiving, we mistakenly launched the `camera_nav` node instead of `camera_nav_calibration`. This activated the throttle, causing the car to drive off the table and crash into the ground. This resulted in significant damage, but thankfully, only to our 3D-printed parts as our electronics and hardware were intact.
+
+With just two weeks left, we quickly redesigned, reprinted, and reassmbled the damaged parts. This mishap occurred at an already stressful time, as we were still troubleshooting issues with deploying our object detection model and completing our final project deliverables. Despite these challenges, we had a highly productive final two weeks, successfully developing and finalizing the core functionality of our platooning system.
 
 ## Future Goals
 - Refine lane switching for smoother steering when following a lead car.
