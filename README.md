@@ -11,7 +11,7 @@
 ## Table of Contents
 1. [Overview](#overview)
 2. [Goals & Accomplishments](#goals-accomplishments)
-   - [Goals](#goals)
+   - [Original Goals](#original-goals)
    - [Revised Goals](#revised-goals)
    - [Accomplishments](#accomplishments)
 3. [Video Demonstrations](#video-demonstrations)
