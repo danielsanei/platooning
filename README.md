@@ -33,7 +33,7 @@
 ## Overview
 The Platooning project aims to develop an autonomous car system for safely deploying an automated convoy, including self-driving, adaptive cruise control, and lane switching. This project was conducted under the guidance of Professor Jack Silberman and fellow staff for MAE/ECE 148 (Introduction to Autonomous Vehicles) during Fall 2024.
 
-## Goals & Accomplishments
+## Goals and Accomplishments
 
 ### Original Goals
 - Design an autonomous vehicle for lane-centered self-driving on a pre-defined track using computer vision.
