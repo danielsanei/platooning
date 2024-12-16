@@ -22,7 +22,7 @@
    - [Car Crash](#car-crash)
 5. [Team Members](#team-members)
 6. [Project Structure](#project-structure)
-7. [Build & Assembly](#build-assembly)
+7. [Build and Assembly](#build-and-assembly)
 8. [Software Setup](#software-setup)
 9. [Replication](#replication)
     - [Object Detection via FastAPI](#object-detection-via-fastapi)
@@ -42,7 +42,7 @@ The Platooning project aims to develop an autonomous car system for safely deplo
 - **Stretch Goal:** Develop lane switching logic to track a lead car changing lanes.
 
 ### Revised Goals
-Our initial focus was adaptive cruise control. However, noticing overlap with another team's project, we consulted with Professor Silberman during a sprint review. He recommended prioritizing convoy platooning and lane switching while integratinng the other team's adaptive cruise control development by the end of the quarter. Our revised goals are as follows:
+Our initial focus was adaptive cruise control. However, noticing overlap with another team's project, we consulted with Professor Silberman during a sprint review. He recommended prioritizing convoy platooning and lane switching while integrating the other team's adaptive cruise control development by the end of the quarter. Our revised goals are as follows:
 - Prioritize lane switching to track a lead car when it changes lanes.
 - **Stretch Goal:** Integrate adaptive cruise control (from another team) into the platooning system.
 - **Stretch Goal:** Achieve true convoy platooning, with our autonomous car between the lead car and another class car.
@@ -84,10 +84,10 @@ To overcome these challenges, we offloaded the object detection model to a FastA
 On the side, we also eventually re-trained the model on RoboFlow. This resolved the error from earlier, and we discovered the root cause was simply a faulty model.
 
 ### LiDAR Incremental Scanning
-Initially, our system was configured to take LiDAR distance measurements within a range of 355 to 5 degrees (a 10-degree span) to calcualte the average of all measurements. However, this setup led to unexpected behaviors: the car would sometimes brake unecessarily when no object was in front, and at other times, fail to stop when an obstacle was directly ahead.
+Initially, our system was configured to take LiDAR distance measurements within a range of 355 to 5 degrees (a 10-degree span) to calculate the average of all measurements. However, this setup led to unexpected behaviors: the car would sometimes brake unecessarily when no object was in front, and at other times, fail to stop when an obstacle was directly ahead.
 Upon analysis, we identified two key inefficiencies with our initial approach:
 1. **Averaging Measurements**: Calculating the average distance cuased issues when objects at farther distances skewed the final value. For example, if an obstacle was 3 meters away, but the average value was 4 meters, the car would continue driving and crash into the obstacle.
-2. ** LiDAR Incremental Scanning:** The LiDAR did not perform a true 360-degree scan, but operated in increments rather than integer degrees. For instance, with an incremement of 0.2 degrees, a range between 0 and 360 degrees actually covered up to 360 x 0.2 = 72 degrees. As a result, the car may stop due to an obstacle 72 degrees to the side rather than directly in front, and the calculated average included values 72 degrees to the side. This finding greatly impacted our results, and explained the strange behaviors noted above.
+2. **LiDAR Incremental Scanning:** The LiDAR did not perform a true 360-degree scan, but operated in increments rather than integer degrees. For instance, with an incremement of 0.2 degrees, a range between 0 and 360 degrees actually covered up to 360 x 0.2 = 72 degrees. As a result, the car may stop due to an obstacle 72 degrees to the side rather than directly in front, and the calculated average included values 72 degrees to the side. This finding greatly impacted our results, and explained the strange behaviors noted above.
 
 ### Expanding SD Card Storage
 We started our project using a 64 GB SD card, and eventually ran out of free memory space. We copied an image of this SD card and flashed a new 512 GB SD card as our new replacement. However, the new card retained the original partition size of 64 GB rather than the available 512 GB memory storage.
@@ -108,14 +108,16 @@ With just two weeks left, we quickly redesigned, reprinted, and reassmbled the d
 
 ![image](https://github.com/user-attachments/assets/57a6e454-b87f-44ef-ba27-bab961329b77)
 
-- Joel Jijo
-  - Electrical Engineering, Class of 2026
+*(Left to Right)*
+
+- Daniel Sanei
+  - Computer Engineering, Class of 2026
 - Maximilian Komm
   - Industrial Engineering, Class of 2025
 - Ruochen Li
   - Mechanical Engineering, Class of 2026
-- Daniel Sanei
-  - Computer Engineering, Class of 2026
+- Joel Jijo
+  - Electrical Engineering, Class of 2026
  
 ## Project Structure
 
@@ -131,7 +133,7 @@ With just two weeks left, we quickly redesigned, reprinted, and reassmbled the d
 4. `turning_demo_node.py`: Implements a PID controller for steering and throttle adjustments based on input from centroid errors, object detection, and wall detection.
 5. `wall_detector.py`: Uses LiDAR data to detect walls or obstacles in front of the vehicle and triggers an emergency stop if a wall is detected within a specified distance.
 
-## Build & Assembly
+## Build and Assembly
 For this project, we were provided an RC car platform which served as the chassis of our car. This chassis came with a steering servo motor and a brushless DC motor for driving and steering the wheels. Our first task was to design and create a base plate for mounting our essential hardware, and to 3D print a case for the Jetson Nano, and a mount for the LiDar camera. We went through several sketches and iterations before getting our final measurements.
 
 ![image](https://github.com/user-attachments/assets/c2853210-d12a-4e02-a724-db075174592c)
@@ -328,7 +330,7 @@ Note that if the `wall_detector` node detects an obstacle within the specified r
 
 
 #### Setting the Angles to Scan
-As mentioned in the challenges section, the LiDAR scans for angles in increments rather than integer degree scans . For accurately setting the angles, ensure that your integer degrees are converted to increments so that the obstacle detect operates as expected.
+As mentioned in the challenges section, the LiDAR scans for angles in increments rather than integer degree scans. For accurately setting the angles, ensure that your integer degrees are converted to increments so that the obstacle detect operates as expected.
 
 ## Lessons Learned
 Throughout the project, we encountered numerous technical challenges, including hardware failures, limitations, and software compatibility issues. At times, it felt as though every step forward required taking two steps back. However, these complications provided us with opportunities to develop patience, resilience, and determination as we worked tirelessly to achieve our goals and deliver functioning platooning prototype. Our experience not only highlighted the importance of iterative development, but also strengthened our communication skills as collaborated to overcome each obstacle as a team.
